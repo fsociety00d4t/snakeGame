@@ -1,0 +1,26 @@
+#root {
+  /* max-width: 1280px; */
+  margin: 0;
+  /* padding: 2rem; */
+  text-align: center;
+  max-height: 100vh;
+  width: 100vw;
+  max-width: 100%; 
+}
+ 
+.gameBoard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 100vmin;
+  height: 100vmin; */
+}
+.board {
+  width: 100vmin;
+  height: 80vmin;
+  background-color: violet;
+  display: grid;
+  grid-template-columns: repeat(21, 1fr);
+  grid-template-rows: repeat(21, 1fr);
+  /* gap:1px; */
+}
