@@ -1,5 +1,5 @@
 import React, {useRef, useEffect} from 'react';
-import Player from "./Player";
+import Player from './Player';
 function gameBoard() {
 
     const parentRef = useRef<HTMLDivElement | null>(null);

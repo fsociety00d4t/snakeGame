@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import './App.css'
-import GameBoard from './GameBoard'
+import GameBoard from './components/GameBoard'
 function App() {
   
 
