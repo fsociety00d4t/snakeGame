@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 interface PlayerProps {
     parentRef: React.RefObject<HTMLDListElement>;
     isGameOver: (currentPosition: { x: number; y: number }) => boolean;
+    isFoodEaten: (currentPosition: { x: number; y: number }) => boolean;
    //PlayerPosition: {x: number, y:number};
 }
 
@@ -10,7 +11,7 @@ interface PlayerPosition {
     x: number;
     y: number;
 }
-    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver}) => {
+    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten}) => {
         const [position, setPosition] = useState<PlayerPosition[]>([
             {x:11, y:15},
             {x:12, y:15},
@@ -23,6 +24,7 @@ interface PlayerPosition {
         const SPEED = 1;
         
         const animate = (currentTime : number) => {
+
             //console.log('called');
            // requestRef.current = requestAnimationFrame(animate);
             const secondsSinceLastRender = (currentTime - lastRenderTime)/1000;
@@ -67,7 +69,10 @@ interface PlayerPosition {
                 }
 
                 updatedPosition[0]=({x: newX, y: newY})
-                isGameOver(updatedPosition);
+                isGameOver(updatedPosition[0]);
+               // console.log(isFoodEaten);
+               if (isFoodEaten)
+                isFoodEaten(updatedPosition[0]);
                 return updatedPosition; // Return the updated array
             });
             
