@@ -3,7 +3,8 @@ import React, {useEffect, useRef, useState} from 'react';
 interface PlayerProps {
     parentRef: React.RefObject<HTMLDListElement>;
     isGameOver: (currentPosition: { x: number; y: number }) => boolean;
-    isFoodEaten: (currentPosition: { x: number; y: number }) => boolean;
+    isFoodEaten: (currentPosition: { x: number; y: number }) => void;
+    foodEaten: boolean;
    //PlayerPosition: {x: number, y:number};
 }
 
@@ -11,32 +12,27 @@ interface PlayerPosition {
     x: number;
     y: number;
 }
-    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten}) => {
+    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten}) => {
         const [position, setPosition] = useState<PlayerPosition[]>([
             {x:11, y:15},
-            {x:12, y:15},
-            {x:13, y:15},
+            // {x:12, y:15},
+            // {x:13, y:15},
         ]);
         const requestRef = useRef<number | null>(null);
         const [inputDirection, setInputDirection] = useState<PlayerPosition> ({x:0, y:0});
         // let lastTime = 0;
         let lastRenderTime = 0;
-        const SPEED = 1;
+        const SPEED = 3;
         
         const animate = (currentTime : number) => {
-
-            //console.log('called');
-           // requestRef.current = requestAnimationFrame(animate);
+           // console.log(foodEaten);
+         //   console.log(isFoodEaten);
             const secondsSinceLastRender = (currentTime - lastRenderTime)/1000;
-            // console.log('here');
-           // requestRef.current = requestAnimationFrame(animate);
            if (secondsSinceLastRender < 1 / SPEED) 
            {
             requestRef.current = requestAnimationFrame(animate);
             return;
-           }
-            
-
+           }          
             const parentWidth = parentRef.current?.offsetWidth || 0;
             const parentHeight = parentRef.current?.offsetHeight || 0;
             const parentStyle = parentRef.current?.style || 0;
@@ -61,26 +57,37 @@ interface PlayerPosition {
                 const newY = prevPosition[0].y + inputDirection.y;
                 for (let i = updatedPosition.length-2; i >= 0 ; i--) {
                     updatedPosition[i+1] = {
-                        x: updatedPosition[i].x,
-                        y: updatedPosition[i].y
-                        // x: updatedPosition[i].x + inputDirection.x,
-                        // y: updatedPosition[i].y + inputDirection.y
+                      //  x: updatedPosition[i].x,
+                      //  y: updatedPosition[i].y
+                        ...updatedPosition[i]
                     };
                 }
 
+                updatedPosition[0] = {x: newX, y: newY};
+
                 updatedPosition[0]=({x: newX, y: newY})
-                isGameOver(updatedPosition[0]);
+                isGameOver(updatedPosition[0], updatedPosition);
+               // console.log(x);
                // console.log(isFoodEaten);
                if (isFoodEaten)
                 isFoodEaten(updatedPosition[0]);
                 return updatedPosition; // Return the updated array
-            });
-            
-            
-           
+            });                        
             requestRef.current = requestAnimationFrame(animate);
             // console.log(position);
           };
+
+          useEffect(() => {
+            // console.log(foodEaten);
+            if (foodEaten) {
+                setPosition((prevPosition) => {
+                    const lastSegment = prevPosition[prevPosition.length-1];
+
+                    return [...prevPosition, {x: lastSegment.x, y:lastSegment.y}]
+                })
+            }
+        }, [foodEaten]);
+        
         
 
         useEffect(() => {
@@ -90,10 +97,9 @@ interface PlayerPosition {
                 cancelAnimationFrame(requestRef.current);
             }
         };
-    }, [inputDirection]); // Re-run when keyPressed changes
+    }, [inputDirection]); 
 
     useEffect(() => {
-      //  {console.log('second useFeect')}
         const handleKeyDown = (event: KeyboardEvent) => {
             switch (event.key) {               
                 case 'ArrowUp':

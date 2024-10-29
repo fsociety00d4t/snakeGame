@@ -28,7 +28,7 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
     
 
     const getRandomPosition = () => {
-        console.log('from getRandom')
+      //  console.log('from getRandom')
         // console.log(randomPosition);
         const newPosition = {
             x: Math.floor(Math.random() * gridColumns) + 1,
@@ -43,7 +43,7 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
           //  console.log(true);
             getRandomPosition();  //THIS FUCKES IT UP
         }
-        console.log('EAT IT ');
+      //  console.log('EAT IT ');
         setFoodFalse();
     },[foodEaten])
 
