@@ -1,7 +1,12 @@
 import React, {useRef, useEffect, useState} from 'react';
 import Player from './Player';
 import Food from './Food';
-function gameBoard() {
+
+interface ParentProps {
+    changeGameOver: (bool: boolean) => void;
+}
+//const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten}) => {
+const GameBoard: React.FC<ParentProps> = ({changeGameOver}) => {
     const parentRef = useRef<HTMLDivElement | null>(null);
     const foodRef = useRef<HTMLDivElement | null>(null);
     const gridColumns = 21;
@@ -30,6 +35,7 @@ function gameBoard() {
        const isOutOfBounds =(currentPosition.x > gridColumns || currentPosition.x <= 0) || (currentPosition.y > gridRows || currentPosition.y <= 0);
 
      //  console.log (isCollision, isOutOfBounds)
+       if (isOutOfBounds || isCollision) changeGameOver(true);
        return isOutOfBounds || isCollision;
     }
 
@@ -56,6 +62,7 @@ function gameBoard() {
 
     return(
         <>
+        
         <div 
         ref={parentRef} // Pass this ref to the child
         className="board" style={{position:'relative', width: '100vmin', gridTemplateColumns: 'repeat(21, 1fr)',gridTemplateRows: 'repeat(21, 1fr)',height: '80vmin'}}>
@@ -70,12 +77,12 @@ function gameBoard() {
     )
 }
 
-export default gameBoard;
+export default GameBoard;
 
 /*
 TODO: 
-1. Add GameOver
-2. Add Score
-3. Add Levels selection
+1. Add score
+2. Add Restart
+3. Add poison
 4. Add style 
 */
