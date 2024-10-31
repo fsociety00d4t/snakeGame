@@ -5,6 +5,9 @@ interface PlayerProps {
     isGameOver: (currentPosition: { x: number; y: number }) => boolean;
     isFoodEaten: (currentPosition: { x: number; y: number }) => void;
     foodEaten: boolean;
+    resetPlayer: true;
+    changeResetPlayer: () => void;
+    gameOver: boolean;
    //PlayerPosition: {x: number, y:number};
 }
 
@@ -12,7 +15,7 @@ interface PlayerPosition {
     x: number;
     y: number;
 }
-    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten}) => {
+    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten, resetPlayer, changeResetPlayer, gameOver}) => {
         const [position, setPosition] = useState<PlayerPosition[]>([
             {x:11, y:15},
             // {x:12, y:15},
@@ -23,8 +26,10 @@ interface PlayerPosition {
         // let lastTime = 0;
         let lastRenderTime = 0;
         const SPEED = 3;
-        
+        let x;
+
         const animate = (currentTime : number) => {
+          //  let x;
            // console.log(foodEaten);
          //   console.log(isFoodEaten);
             const secondsSinceLastRender = (currentTime - lastRenderTime)/1000;
@@ -66,13 +71,14 @@ interface PlayerPosition {
                 updatedPosition[0] = {x: newX, y: newY};
 
                 updatedPosition[0]=({x: newX, y: newY})
-                isGameOver(updatedPosition[0], updatedPosition);
+               x = isGameOver(updatedPosition[0], updatedPosition);
                // console.log(x);
                // console.log(isFoodEaten);
                if (isFoodEaten)
                 isFoodEaten(updatedPosition[0]);
                 return updatedPosition; // Return the updated array
-            });                        
+            }); 
+            if (!x)                       
             requestRef.current = requestAnimationFrame(animate);
             // console.log(position);
           };
@@ -87,9 +93,7 @@ interface PlayerPosition {
                 })
             }
         }, [foodEaten]);
-        
-        
-
+ 
         useEffect(() => {
         requestRef.current = requestAnimationFrame(animate);
         return () => {
@@ -99,8 +103,27 @@ interface PlayerPosition {
         };
     }, [inputDirection]); 
 
+    useEffect(()=> {
+        if (resetPlayer===true){
+          //  console.log('reset player');
+           // console.log('dkakd');
+           //console.log('here');
+           setPosition([{x:11, y:15}]);
+           changeResetPlayer();
+           //setResetPlayer(false);
+        }
+    },[resetPlayer]);
+    
+
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
+            console.log(gameOver);
+            if (gameOver) {
+                console.log(inputDirection)
+                setInputDirection({x:0, y:0});
+                console.log(inputDirection)
+                return;
+            }
             switch (event.key) {               
                 case 'ArrowUp':
                     if(inputDirection.y !==0) return
@@ -127,7 +150,7 @@ interface PlayerPosition {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [inputDirection]);
+    }, [inputDirection, gameOver]);
 
     return (
         <>

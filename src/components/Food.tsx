@@ -47,31 +47,6 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
         setFoodFalse();
     },[foodEaten])
 
-    // useEffect(() => {
-    //     console.log('asd');
-    //     if (headPosition && headPosition.x === randomPosition.x && headPosition.y === randomPosition.y) {
-    //         getRandomPosition(); // Call to get a new position when the food is "eaten"
-    //     }
-    // }, [headPosition, randomPosition]);
-
-    // useEffect(() => {
-    //    // console.log(gridColumns, gridRows);
-    // //    console.log('here');
-    //    // console.log(headPosition);
-    //    const getRandomPosition = () => {
-    //     setRandomPosition({
-    //         x: Math.floor(Math.random() * gridColumns) + 1,
-    //         y: Math.floor(Math.random() * gridRows) + 1,
-    //     });
-    //     console.log(randomPosition);
-    // };
-
-    //     getRandomPosition(); // Call it initially if needed
-    // }, [gridColumns, gridRows]); // Depend on grid size if they can change
-
-    // useEffect(() => {
-    //   // console.log(headPosition);
-    // },[headPosition]);
 
     return (
         <div

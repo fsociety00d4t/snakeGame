@@ -5,9 +5,12 @@ import Food from './Food';
 interface ParentProps {
     changeGameOver: (bool: boolean) => void;
     changeScore: (value: number) => void; 
+    reset: boolean;
+    changeReset: (bool: boolean) => void;
+    gameOver: boolean;
 }
 //const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten}) => {
-const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore}) => {
+const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore, reset, changeReset, gameOver}) => {
     const parentRef = useRef<HTMLDivElement | null>(null);
     const foodRef = useRef<HTMLDivElement | null>(null);
     const gridColumns = 21;
@@ -19,6 +22,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore}) => {
     //const [test, setTest] = useState<{x:Number, y:number} | null> (null);
     const [foodPosition,setFoodPotition] = useState<{x:Number; y:number}|null>(null);
     const [foodEaten, setFoodEaten] = useState<Boolean>(false);
+    const [resetPlayer, setResetPlayer] = useState<boolean>(false);
 
 
     const isGameOver = (currentPosition:{x: number; y:number}, 
@@ -52,7 +56,11 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore}) => {
 
     const setFoodFalse = () => {
         setFoodEaten(false);
-    }    
+    } 
+    
+    const changeResetPlayer = () => {
+        setResetPlayer(false);
+    }
 
     useEffect(()=> {
         if (foodRef.current) {
@@ -65,6 +73,14 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore}) => {
         }   
     },[foodEaten]);
 
+    useEffect(() => {
+       // console.log(reset);
+        if (reset) {
+            setResetPlayer(true);
+            changeReset(false);
+        }
+    },[reset]);
+
     return(
         <>
         
@@ -74,7 +90,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore}) => {
             {/* <div className="test"></div> */}
             {/* {console.log(HTMLDivElement)} */}
             {/* @ts-ignore */}
-            <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten}/>
+            <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten} resetPlayer={resetPlayer} changeResetPlayer={changeResetPlayer} gameOver={gameOver}/>
             <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse}/>
         </div>
         
