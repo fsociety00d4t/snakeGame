@@ -4,9 +4,10 @@ import Food from './Food';
 
 interface ParentProps {
     changeGameOver: (bool: boolean) => void;
+    changeScore: (value: number) => void; 
 }
 //const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten}) => {
-const GameBoard: React.FC<ParentProps> = ({changeGameOver}) => {
+const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore}) => {
     const parentRef = useRef<HTMLDivElement | null>(null);
     const foodRef = useRef<HTMLDivElement | null>(null);
     const gridColumns = 21;
@@ -57,6 +58,10 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver}) => {
         if (foodRef.current) {
             const computedStyle = getComputedStyle(foodRef.current);
             setFoodPotition({x:Number(computedStyle.gridColumn), y:Number(computedStyle.gridRow)})
+            if (foodEaten) {
+                changeScore(1);
+            }
+           
         }   
     },[foodEaten]);
 
@@ -81,7 +86,6 @@ export default GameBoard;
 
 /*
 TODO: 
-1. Add score
 2. Add Restart
 3. Add poison
 4. Add style 
