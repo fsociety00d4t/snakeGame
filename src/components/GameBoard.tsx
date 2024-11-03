@@ -75,7 +75,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
     const isPoisonEaten = (currentPosition: { x: number; y: number }) => {
         //   console.log(foodPosition);
            if (poisonPosition) {
-            console.log(poisonPosition);
+         //   console.log(poisonPosition);
                if (currentPosition.x === poisonPosition.x && currentPosition.y === poisonPosition.y) {
                    changeGameOver(true);
                    return true;
@@ -99,7 +99,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
     useEffect(()=> {
         // console.log(poisonRef.current);
         if (poisonRef.current) {
-           console.log(poisonRef.current);
+        //   console.log(poisonRef.current);
             const computedStyle = getComputedStyle(poisonRef.current);
             setPoisonPosition({x:Number(computedStyle.gridColumn), y:Number(computedStyle.gridRow)})
           //  setPoisonEaten(false);
