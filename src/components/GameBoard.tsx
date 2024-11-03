@@ -1,18 +1,21 @@
 import React, {useRef, useEffect, useState} from 'react';
 import Player from './Player';
 import Food from './Food';
+import Poison from './Poison';
 
 interface ParentProps {
     changeGameOver: (bool: boolean) => void;
+    score: number;
     changeScore: (value: number) => void; 
     reset: boolean;
     changeReset: (bool: boolean) => void;
     gameOver: boolean;
 }
 //const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten}) => {
-const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore, reset, changeReset, gameOver}) => {
+const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, reset, changeReset, gameOver}) => {
     const parentRef = useRef<HTMLDivElement | null>(null);
     const foodRef = useRef<HTMLDivElement | null>(null);
+    const poisonRef = useRef<HTMLDivElement | null>(null);
     const gridColumns = 21;
     const gridRows = 21;
    // let headPosition;
@@ -23,6 +26,8 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore, reset, c
     const [foodPosition,setFoodPotition] = useState<{x:Number; y:number}|null>(null);
     const [foodEaten, setFoodEaten] = useState<Boolean>(false);
     const [resetPlayer, setResetPlayer] = useState<boolean>(false);
+    const [poisonPosition,setPoisonPosition] = useState<{x:Number; y:number}|null>(null);
+    const [poisonEaten, setPoisonEaten] = useState<boolean>(false);
 
 
     const isGameOver = (currentPosition:{x: number; y:number}, 
@@ -45,6 +50,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore, reset, c
     }
 
     const isFoodEaten = (currentPosition: { x: number; y: number }) => {
+     //   console.log(foodPosition);
         if (foodPosition) {
             if (currentPosition.x === foodPosition.x && currentPosition.y === foodPosition.y) {
                 setFoodEaten(true);
@@ -57,13 +63,30 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore, reset, c
     const setFoodFalse = () => {
         setFoodEaten(false);
     } 
+
+    const setPoisonFalse = () => {
+        setPoisonEaten(false);
+    }
     
     const changeResetPlayer = () => {
-        setResetPlayer(false);
+        setResetPlayer(false);  
     }
+
+    const isPoisonEaten = (currentPosition: { x: number; y: number }) => {
+        //   console.log(foodPosition);
+           if (poisonPosition) {
+            console.log(poisonPosition);
+               if (currentPosition.x === poisonPosition.x && currentPosition.y === poisonPosition.y) {
+                   changeGameOver(true);
+                   return true;
+               }
+           }
+           return false;
+       }
 
     useEffect(()=> {
         if (foodRef.current) {
+        //    console.log(foodRef.current);
             const computedStyle = getComputedStyle(foodRef.current);
             setFoodPotition({x:Number(computedStyle.gridColumn), y:Number(computedStyle.gridRow)})
             if (foodEaten) {
@@ -72,6 +95,22 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore, reset, c
            
         }   
     },[foodEaten]);
+
+    useEffect(()=> {
+        // console.log(poisonRef.current);
+        if (poisonRef.current) {
+           console.log(poisonRef.current);
+            const computedStyle = getComputedStyle(poisonRef.current);
+            setPoisonPosition({x:Number(computedStyle.gridColumn), y:Number(computedStyle.gridRow)})
+          //  setPoisonEaten(false);
+        }
+    },[foodEaten]);
+
+    // useEffect(() => {
+    //     if (poisonEaten) {
+    //         setPoisonEaten(false);
+    //     }
+    // },[poisonEaten])
 
     useEffect(() => {
        // console.log(reset);
@@ -90,8 +129,10 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, changeScore, reset, c
             {/* <div className="test"></div> */}
             {/* {console.log(HTMLDivElement)} */}
             {/* @ts-ignore */}
-            <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten} resetPlayer={resetPlayer} changeResetPlayer={changeResetPlayer} gameOver={gameOver}/>
+            <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten} resetPlayer={resetPlayer} 
+            changeResetPlayer={changeResetPlayer} gameOver={gameOver} isPoisonEaten={isPoisonEaten}/>
             <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse}/>
+            <Poison gridColumns={gridColumns} gridRows={gridRows} ref={poisonRef} headPosition={headPosition.current} score={score} setPoisonFalse={setPoisonFalse} foodEaten={foodEaten}/>
         </div>
         
         </>
@@ -102,7 +143,6 @@ export default GameBoard;
 
 /*
 TODO: 
-2. Add Restart
 3. Add poison
 4. Add style 
 */

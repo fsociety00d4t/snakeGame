@@ -8,6 +8,7 @@ interface PlayerProps {
     resetPlayer: true;
     changeResetPlayer: () => void;
     gameOver: boolean;
+    isPoisonEaten: (currentPosition: {x: number; y:number}) => boolean;
    //PlayerPosition: {x: number, y:number};
 }
 
@@ -15,7 +16,7 @@ interface PlayerPosition {
     x: number;
     y: number;
 }
-    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten, resetPlayer, changeResetPlayer, gameOver}) => {
+    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten, resetPlayer, changeResetPlayer, gameOver, isPoisonEaten}) => {
         const [position, setPosition] = useState<PlayerPosition[]>([
             {x:11, y:15},
             // {x:12, y:15},
@@ -29,9 +30,6 @@ interface PlayerPosition {
         let x;
 
         const animate = (currentTime : number) => {
-          //  let x;
-           // console.log(foodEaten);
-         //   console.log(isFoodEaten);
             const secondsSinceLastRender = (currentTime - lastRenderTime)/1000;
            if (secondsSinceLastRender < 1 / SPEED) 
            {
@@ -76,6 +74,8 @@ interface PlayerPosition {
                // console.log(isFoodEaten);
                if (isFoodEaten)
                 isFoodEaten(updatedPosition[0]);
+               if (isPoisonEaten)
+                isPoisonEaten(updatedPosition[0]);
                 return updatedPosition; // Return the updated array
             }); 
             if (!x)                       
@@ -117,9 +117,9 @@ interface PlayerPosition {
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            console.log(gameOver);
+          //  console.log(gameOver);
             if (gameOver) {
-                console.log(inputDirection)
+               // console.log(inputDirection)
                 setInputDirection({x:0, y:0});
                 console.log(inputDirection)
                 return;

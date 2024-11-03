@@ -37,7 +37,7 @@ function App() {
 
         <div className='gameBoard'>
           <div className='container' style={{border:'5px solid green', position:'relative'}}>
-              <GameBoard changeGameOver={changeGameOver} changeScore={changeScore} reset={reset} changeReset={changeReset} gameOver={gameOver}/>
+              <GameBoard changeGameOver={changeGameOver} score={score} changeScore={changeScore} reset={reset} changeReset={changeReset} gameOver={gameOver}/>
               {gameOver &&
             <div className='gameOver-container' style={{width:'50%', height:'50%',background:'black',borderRadius:'2%',position:'absolute', 
             left:'50%', top:'50%',transform:' translate(-50%, -50%)', display:'flex', flexDirection:'column', justifyContent:'center', alignContent:'center',}}>
