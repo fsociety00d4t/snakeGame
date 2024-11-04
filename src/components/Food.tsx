@@ -6,6 +6,7 @@ interface FoodProps {
     headPosition: {x:number, y:number} | null;
     foodEaten: Boolean;
     setFoodFalse: () => void;
+    reset: boolean;
 }
 interface RandomPosition {
     x: number;
@@ -13,7 +14,7 @@ interface RandomPosition {
 }
 
 // Use forwardRef to access the ref from the parent
-const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,headPosition, foodEaten,setFoodFalse}, ref) => {
+const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,headPosition, foodEaten,setFoodFalse, reset}, ref) => {
     const [randomPosition, setRandomPosition] = useState<{x: number; y: number}>({
         x: Math.floor(Math.random() * gridColumns) + 1,
         y: Math.floor(Math.random() * gridRows) + 1,
@@ -34,6 +35,12 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
         }
         setFoodFalse();
     },[foodEaten])
+
+    useEffect(() => {
+        if (reset===true) {
+            getRandomPosition();
+        }
+    },[reset]);
 
 
     return (

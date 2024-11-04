@@ -124,7 +124,7 @@ interface PlayerPosition {
           //  console.log(gameOver);
             if (gameOver) {
                // console.log(inputDirection)
-               console.log('in gameover');
+            //    console.log('in gameover');
                 setInputDirection({x:0, y:0});
                 console.log(inputDirection)
                 return;

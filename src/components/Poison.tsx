@@ -7,6 +7,7 @@ interface PoisonProps {
     score: number;
     setPoisonFalse: () => void;
     foodEaten: Boolean;
+    reset: boolean;
 }
 
 interface RandomPosition {
@@ -15,10 +16,10 @@ interface RandomPosition {
 }
 //const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,headPosition, foodEaten,setFoodFalse}, ref) => {
 
-const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows, headPosition, score, setPoisonFalse, foodEaten}, ref) => {
+const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows, headPosition, score, setPoisonFalse, foodEaten, reset}, ref) => {
     const [randomPosition, setRandomPosition] = useState<{x: number; y: number}>({
-        x: Math.floor(Math.random() * gridColumns) + 1,
-        y: Math.floor(Math.random() * gridRows) + 1,
+        x: -1,
+        y: -1,
     })
     
 
@@ -30,29 +31,23 @@ const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows,
         setRandomPosition(newPosition);
     }
 
-    /* 
-    useEffect(() => {
-        if (foodEaten===true){
-            getRandomPosition();  //THIS FUCKES IT UP
-        }
-        setFoodFalse();
-    },[foodEaten])
-    */
    
     useEffect(() => {
-        //getRandomPosition();
         if (foodEaten){
-            console.log('got it');
+            if (score>3)
             getRandomPosition();
         } 
         setPoisonFalse();
     },[foodEaten]);
 
-    //console.log(score);
+    useEffect(() => {
+        setRandomPosition({x:-1,y:-1});
+    }, [reset]);
+
+   
 
     return(
         <>
-        {/* {console.log(randomPosition)}; */}
         <div
             ref={ref}
             style={{

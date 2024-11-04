@@ -85,6 +85,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
        }
 
     useEffect(()=> {
+        // console.log(food)
         if (foodRef.current) {
         //    console.log(foodRef.current);
             const computedStyle = getComputedStyle(foodRef.current);
@@ -94,26 +95,16 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
             }
            
         }   
-    },[foodEaten]);
+    },[foodEaten, reset]);
 
     useEffect(()=> {
-        // console.log(poisonRef.current);
         if (poisonRef.current) {
-        //   console.log(poisonRef.current);
             const computedStyle = getComputedStyle(poisonRef.current);
             setPoisonPosition({x:Number(computedStyle.gridColumn), y:Number(computedStyle.gridRow)})
-          //  setPoisonEaten(false);
         }
     },[foodEaten]);
 
-    // useEffect(() => {
-    //     if (poisonEaten) {
-    //         setPoisonEaten(false);
-    //     }
-    // },[poisonEaten])
-
     useEffect(() => {
-       // console.log(reset);
         if (reset) {
             setResetPlayer(true);
             changeReset(false);
@@ -131,8 +122,8 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
             {/* @ts-ignore */}
             <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten} resetPlayer={resetPlayer} 
             changeResetPlayer={changeResetPlayer} gameOver={gameOver} isPoisonEaten={isPoisonEaten}/>
-            <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse}/>
-            <Poison gridColumns={gridColumns} gridRows={gridRows} ref={poisonRef} headPosition={headPosition.current} score={score} setPoisonFalse={setPoisonFalse} foodEaten={foodEaten}/>
+            <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse} reset={reset}/>
+            <Poison gridColumns={gridColumns} gridRows={gridRows} ref={poisonRef} headPosition={headPosition.current} score={score} setPoisonFalse={setPoisonFalse} foodEaten={foodEaten} reset={reset}/>
         </div>
         
         </>
