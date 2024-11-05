@@ -152,7 +152,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
             {/* @ts-ignore */}
             <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten} resetPlayer={resetPlayer} 
             changeResetPlayer={changeResetPlayer} gameOver={gameOver} isPoisonEaten={isPoisonEaten}/>
-            <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse} reset={reset}/>
+            <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse} reset={reset} poisonPosition={poisonPosition}/>
             <Poison gridColumns={gridColumns} gridRows={gridRows} ref={poisonRef} headPosition={headPosition.current} score={score} setPoisonFalse={setPoisonFalse} foodEaten={foodEaten} reset={reset}/>
         </div>
         
@@ -166,7 +166,8 @@ export default GameBoard;
 TODO: 
 1. Don't allow food spawn on a poison position.
 2. Accelarate snake Speed based on level.
-3. Add pictures for food and poison.
-4. Add sound Effects. 
-5. finish up style.
+3. Add Win Game condition.
+4. Add pictures for food and poison.
+5. Add sound Effects. 
+6. finish up style.
 */
