@@ -23,10 +23,18 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
     //const [headPosition, setHeadPosition] = useState<{x:number, y:number} | null>(null);
     const headPosition  = useRef<{x: number; y: number } | null>(null);
     //const [test, setTest] = useState<{x:Number, y:number} | null> (null);
+    /*
+    const [randomPosition, setRandomPosition] = useState<RandomPosition[]>([
+        {x:-1, y:-1},
+        // {x:12, y:15},
+        // {x:13, y:15},
+    ]); */
     const [foodPosition,setFoodPotition] = useState<{x:Number; y:number}|null>(null);
     const [foodEaten, setFoodEaten] = useState<Boolean>(false);
     const [resetPlayer, setResetPlayer] = useState<boolean>(false);
-    const [poisonPosition,setPoisonPosition] = useState<{x:Number; y:number}|null>(null);
+    // const [poisonPosition,setPoisonPosition] = useState<{x:Number; y:number}|null>(null);
+    const [poisonPosition, setPoisonPosition] = useState<Array<{ x: number; y: number }>>([]);
+
     const [poisonEaten, setPoisonEaten] = useState<boolean>(false);
 
 
@@ -73,19 +81,26 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
     }
 
     const isPoisonEaten = (currentPosition: { x: number; y: number }) => {
+        //console.log(poisonPosition);
         //   console.log(foodPosition);
            if (poisonPosition) {
          //   console.log(poisonPosition);
-               if (currentPosition.x === poisonPosition.x && currentPosition.y === poisonPosition.y) {
-                   changeGameOver(true);
-                   return true;
-               }
+            //    if (currentPosition.x === poisonPosition.x && currentPosition.y === poisonPosition.y) {
+            //        changeGameOver(true);
+            //        return true;
+            //    }
+            for (const position of poisonPosition) {
+                if (currentPosition.x === position.x && currentPosition.y===position.y) {
+                    changeGameOver(true);
+                    return true; 
+                }
+            }
            }
            return false;
        }
 
     useEffect(()=> {
-        // console.log(food)
+        //console.log(poisonPosition)
         if (foodRef.current) {
         //    console.log(foodRef.current);
             const computedStyle = getComputedStyle(foodRef.current);
@@ -100,7 +115,21 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
     useEffect(()=> {
         if (poisonRef.current) {
             const computedStyle = getComputedStyle(poisonRef.current);
-            setPoisonPosition({x:Number(computedStyle.gridColumn), y:Number(computedStyle.gridRow)})
+            const newPosition = { x: Number(computedStyle.gridColumn), y: Number(computedStyle.gridRow) };
+            // setPoisonPosition({x:Number(computedStyle.gridColumn), y:Number(computedStyle.gridRow)})
+           //let newPosition = {x:Number(computedStyle.gridColumn), y:Number(computedStyle.gridRow)};
+          //  setPoisonPosition(prevPosition => [...prevPosition, newPosition]);
+          setPoisonPosition(prevPositions => {
+            const positionExists = prevPositions.some(
+                pos => pos.x === newPosition.x && pos.y === newPosition.y
+            );
+
+            // Only add newPosition if it doesn't already exist
+            if (!positionExists) {
+                return [...prevPositions, newPosition];
+            }
+            return prevPositions;
+        });
         }
     },[foodEaten]);
 
@@ -108,6 +137,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
         if (reset) {
             setResetPlayer(true);
             changeReset(false);
+            setPoisonPosition([]);
         }
     },[reset]);
 
@@ -134,6 +164,9 @@ export default GameBoard;
 
 /*
 TODO: 
-3. Add poison
-4. Add style 
+1. Don't allow food spawn on a poison position.
+2. Accelarate snake Speed based on level.
+3. Add pictures for food and poison.
+4. Add sound Effects. 
+5. finish up style.
 */

@@ -26,7 +26,7 @@ interface PlayerPosition {
         const [inputDirection, setInputDirection] = useState<PlayerPosition> ({x:0, y:0});
         // let lastTime = 0;
         let lastRenderTime = 0;
-        const SPEED = 3;
+        const SPEED = 5;
         let x;
 
         const animate = (currentTime : number) => {
@@ -126,7 +126,7 @@ interface PlayerPosition {
                // console.log(inputDirection)
             //    console.log('in gameover');
                 setInputDirection({x:0, y:0});
-                console.log(inputDirection)
+              //  console.log(inputDirection)
                 return;
             }
             switch (event.key) {               
