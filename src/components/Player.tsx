@@ -9,6 +9,7 @@ interface PlayerProps {
     changeResetPlayer: () => void;
     gameOver: boolean;
     isPoisonEaten: (currentPosition: {x: number; y:number}) => boolean;
+    score: number;
    //PlayerPosition: {x: number, y:number};
 }
 
@@ -16,7 +17,7 @@ interface PlayerPosition {
     x: number;
     y: number;
 }
-    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten, resetPlayer, changeResetPlayer, gameOver, isPoisonEaten}) => {
+    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten, resetPlayer, changeResetPlayer, gameOver, isPoisonEaten, score}) => {
         const [position, setPosition] = useState<PlayerPosition[]>([
             {x:11, y:15},
             // {x:12, y:15},
@@ -26,11 +27,19 @@ interface PlayerPosition {
         const [inputDirection, setInputDirection] = useState<PlayerPosition> ({x:0, y:0});
         // let lastTime = 0;
         let lastRenderTime = 0;
-        const SPEED = 5;
+       // const SPEED = 5;
         let x;
+
+        const calculateSpeed = () => {
+            const baseSpeed = 5;
+            const speedIncrement = 0.5;
+            return baseSpeed + speedIncrement * Math.floor(score/2);
+        }
 
         const animate = (currentTime : number) => {
             const secondsSinceLastRender = (currentTime - lastRenderTime)/1000;
+            const SPEED = calculateSpeed();
+           // console.log(SPEED);
            if (secondsSinceLastRender < 1 / SPEED) 
            {
             requestRef.current = requestAnimationFrame(animate);

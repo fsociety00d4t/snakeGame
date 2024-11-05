@@ -151,7 +151,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
             {/* {console.log(HTMLDivElement)} */}
             {/* @ts-ignore */}
             <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten} resetPlayer={resetPlayer} 
-            changeResetPlayer={changeResetPlayer} gameOver={gameOver} isPoisonEaten={isPoisonEaten}/>
+            changeResetPlayer={changeResetPlayer} gameOver={gameOver} isPoisonEaten={isPoisonEaten} score={score}/>
             <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse} reset={reset} poisonPosition={poisonPosition}/>
             <Poison gridColumns={gridColumns} gridRows={gridRows} ref={poisonRef} headPosition={headPosition.current} score={score} setPoisonFalse={setPoisonFalse} foodEaten={foodEaten} reset={reset}/>
         </div>

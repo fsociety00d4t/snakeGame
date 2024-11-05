@@ -38,7 +38,7 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
 
             // Ensure the position does not collide with poison
             positionIsValid = !positionCollidesWithPoison;
-            console.log(positionIsValid);
+           // console.log(positionIsValid);
 
             if (positionIsValid) {
                 setRandomPosition(newPosition); // Set the valid position
