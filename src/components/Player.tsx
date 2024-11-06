@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-
+import snakeHead from '../assets/snake-head.svg';
 interface PlayerProps {
     parentRef: React.RefObject<HTMLDListElement>;
     isGameOver: (currentPosition: { x: number; y: number }) => boolean;
@@ -165,24 +165,63 @@ interface PlayerPosition {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [inputDirection, gameOver]);
-
+ /*
+ <div
+          ref={ref}
+          style={{
+            gridRow: randomPosition.y,
+            gridColumn: randomPosition.x,
+            // background: 'yellow',
+            position: 'relative', // Add position relative to place image inside
+          }}
+        >
+          <img
+            src={randomFood[randomImg]}
+            alt="Ice Cream"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain', // Ensure the image fits within the div without distortion
+              position: 'absolute', // Position absolute to keep the image inside the div
+              top: '0',
+              left: '0',
+            }}
+          />
+        </div> */
     return (
         <>
-            {position.map((el, i) => {
-                // console.log(`Position ${i}:`, el); // Log the position object and its index
-                return (
-                    <div
-                        key={i}
-                        style={{
-                            gridRow: el.y,
-                            gridColumn: el.x,
-                            border: '.25vmin solid black',
-                            background: i===0 ? 'red': 'blue',
-                        }}
-                    />
-                );
-            })}
-        </>
+        {position.map((el, i) => {
+            return (
+                <div
+                    key={i}
+                    style={{
+                        gridRow: el.y,
+                        gridColumn: el.x,
+                        // border: '.25vmin solid black',
+                        background: i === 0 ? '' : 'green', // Snake head is red
+                        position: 'relative',
+                        borderRadius:'40%',
+                        border: i === 0 ? '2px solid black': 'none',
+                    }}
+                >
+                    {i === 0 && (
+                        <img
+                            src={snakeHead}
+                            alt="Snake Head"
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain', // Ensure it fits the div size
+                                position: 'absolute',
+                                top:'0',
+                                left:'0',
+                            }}
+                        />
+                    )}
+                </div>
+            );
+        })}
+    </>
     )
 }
 
