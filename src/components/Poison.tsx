@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef, forwardRef} from 'react';
+import posion from '../assets/poison-green.svg';
 interface PoisonProps {
     gridColumns: number;
     gridRows: number;
@@ -55,33 +56,31 @@ const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows,
         setRandomPosition([{x:-1,y:-1}]); 
     }, [reset]);
 
-    /* 
-    {position.map((el, i) => {
-                // console.log(`Position ${i}:`, el); // Log the position object and its index
-                return (
-                    <div
-                        key={i}
-                        style={{
-                            gridRow: el.y,
-                            gridColumn: el.x,
-                            border: '.25vmin solid black',
-                            background: i===0 ? 'red': 'blue',
-                        }}
-                    />
-                );
-            })} */
-   
-
+ /* 
+  <div
+          ref={ref}
+          style={{
+            gridRow: randomPosition.y,
+            gridColumn: randomPosition.x,
+            // background: 'yellow',
+            position: 'relative', // Add position relative to place image inside
+          }}
+        >
+          <img
+            src={randomFood[randomImg]}
+            alt="Ice Cream"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain', // Ensure the image fits within the div without distortion
+              position: 'absolute', // Position absolute to keep the image inside the div
+              top: '0',
+              left: '0',
+            }}
+          />
+        </div> */
     return(
         <>
-        {/* <div
-            ref={ref}
-            style={{
-                gridRow: randomPosition.y,
-                gridColumn: randomPosition.x,
-                background: 'green',
-            }}
-        /> */}
         {randomPosition && randomPosition.map((el,i) => {
             return (
                 <div
@@ -90,9 +89,23 @@ const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows,
                 style={{
                     gridRow: el.y,
                     gridColumn: el.x,
-                    background: 'green',
-                }}
-                />
+                    // background: 'green',
+                    position:'relative',
+                }} 
+                >
+                  <img
+            src={posion}
+            alt="Ice Cream"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain', // Ensure the image fits within the div without distortion
+              position: 'absolute', // Position absolute to keep the image inside the div
+              top: '0',
+              left: '0',
+            }}
+          />
+                </div>
             )
         })}
         </>

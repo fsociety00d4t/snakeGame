@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, forwardRef, useState} from "react";
 import eatSound from '../assets/eat.mp3';
+import iceCream from '../assets/ice-cream.svg';
+import lunch from '../assets/lunch.svg';
+import cake from '../assets/cake.svg';
+import bakery from '../assets/bakery.svg'
+
 interface FoodProps {
     gridColumns: number;
     gridRows: number;
@@ -15,6 +20,8 @@ interface RandomPosition {
     y: number;
 }
 
+const randomFood = [iceCream, lunch, cake, bakery];
+
 const eatAudio = new Audio(eatSound);
 // Use forwardRef to access the ref from the parent
 const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,headPosition, foodEaten,setFoodFalse, reset, poisonPosition, sound}, ref) => {
@@ -22,8 +29,13 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
         x: Math.floor(Math.random() * gridColumns) + 1,
         y: Math.floor(Math.random() * gridRows) + 1,
     })
+    const [randomImg, setRandomImg] = useState<number>(0);
     
-
+    const getRandomImg = () => {
+        let random = Math.floor(Math.random() * randomFood.length);
+        console.log(random);
+        setRandomImg(random);
+    }
     const getRandomPosition = () => {
         let positionIsValid = false; // Track if the position is valid
 
@@ -51,6 +63,7 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
     useEffect(() => {
         if (foodEaten===true){
             sound ? eatAudio.play() : null;
+            getRandomImg();
             getRandomPosition();  //THIS FUCKES IT UP
         }
         setFoodFalse();
@@ -65,15 +78,30 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
 
     return (
         <div
-            ref={ref}
+          ref={ref}
+          style={{
+            gridRow: randomPosition.y,
+            gridColumn: randomPosition.x,
+            // background: 'yellow',
+            position: 'relative', // Add position relative to place image inside
+          }}
+        >
+          <img
+            src={randomFood[randomImg]}
+            alt="Ice Cream"
             style={{
-                gridRow: randomPosition.y,
-                gridColumn: randomPosition.x,
-                background: 'yellow',
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain', // Ensure the image fits within the div without distortion
+              position: 'absolute', // Position absolute to keep the image inside the div
+              top: '0',
+              left: '0',
             }}
-        />
-    );
-});
+          />
+        </div>
+      );
+    }
+  );
 
 // Set display name for better debugging
 Food.displayName = 'Food';
