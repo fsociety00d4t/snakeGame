@@ -2,6 +2,7 @@ import React, {useRef, useEffect, useState} from 'react';
 import Player from './Player';
 import Food from './Food';
 import Poison from './Poison';
+import diedSound from '../assets/dead.mp3';
 
 interface ParentProps {
     changeGameOver: (bool: boolean) => void;
@@ -10,9 +11,12 @@ interface ParentProps {
     reset: boolean;
     changeReset: (bool: boolean) => void;
     gameOver: boolean;
+    sound: boolean;
 }
+
+const diedAudio = new Audio(diedSound);
 //const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten}) => {
-const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, reset, changeReset, gameOver}) => {
+const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, reset, changeReset, gameOver, sound}) => {
     const parentRef = useRef<HTMLDivElement | null>(null);
     const foodRef = useRef<HTMLDivElement | null>(null);
     const poisonRef = useRef<HTMLDivElement | null>(null);
@@ -141,6 +145,12 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
         }
     },[reset]);
 
+    useEffect(() => {
+        if (gameOver===true) {
+            sound ?diedAudio.play() : null;
+        }
+    },[gameOver]);
+
     return(
         <>
         
@@ -152,7 +162,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
             {/* @ts-ignore */}
             <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten} resetPlayer={resetPlayer} 
             changeResetPlayer={changeResetPlayer} gameOver={gameOver} isPoisonEaten={isPoisonEaten} score={score}/>
-            <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse} reset={reset} poisonPosition={poisonPosition}/>
+            <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse} reset={reset} poisonPosition={poisonPosition} sound={sound}/>
             <Poison gridColumns={gridColumns} gridRows={gridRows} ref={poisonRef} headPosition={headPosition.current} score={score} setPoisonFalse={setPoisonFalse} foodEaten={foodEaten} reset={reset}/>
         </div>
         
@@ -164,10 +174,5 @@ export default GameBoard;
 
 /*
 TODO: 
-1. Don't allow food spawn on a poison position.
-2. Accelarate snake Speed based on level.
-3. Add Win Game condition.
-4. Add pictures for food and poison.
-5. Add sound Effects. 
 6. finish up style.
 */

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, forwardRef, useState} from "react";
-
+import eatSound from '../assets/eat.mp3';
 interface FoodProps {
     gridColumns: number;
     gridRows: number;
@@ -8,14 +8,16 @@ interface FoodProps {
     setFoodFalse: () => void;
     reset: boolean;
     poisonPosition:Array<{ x:number; y:number}>;
+    sound: boolean;
 }
 interface RandomPosition {
     x: number;
     y: number;
 }
 
+const eatAudio = new Audio(eatSound);
 // Use forwardRef to access the ref from the parent
-const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,headPosition, foodEaten,setFoodFalse, reset, poisonPosition}, ref) => {
+const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,headPosition, foodEaten,setFoodFalse, reset, poisonPosition, sound}, ref) => {
     const [randomPosition, setRandomPosition] = useState<{x: number; y: number}>({
         x: Math.floor(Math.random() * gridColumns) + 1,
         y: Math.floor(Math.random() * gridRows) + 1,
@@ -48,6 +50,7 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
 
     useEffect(() => {
         if (foodEaten===true){
+            sound ? eatAudio.play() : null;
             getRandomPosition();  //THIS FUCKES IT UP
         }
         setFoodFalse();

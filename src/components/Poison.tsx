@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useRef, forwardRef} from 'react';
-
 interface PoisonProps {
     gridColumns: number;
     gridRows: number;

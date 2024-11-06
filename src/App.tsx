@@ -1,12 +1,14 @@
 import { useState } from 'react'
-
 import './App.css'
 import GameBoard from './components/GameBoard'
+import soundOf from './assets/volume_off.svg';
+import soundOn from './assets/volume_up.svg';
+
 function App() {
-  
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
   const [reset, setReset] = useState<boolean>(false);
+  const [sound, setSound] = useState<boolean>(true);
   
 
   const changeGameOver = (bool:boolean) => {
@@ -31,13 +33,19 @@ function App() {
     //console.log(gameOver);
   }
   return (
-    <>
-        <h1>SnakeGame</h1>
-        <h2>Score : <span>{score.toString()}</span></h2>
-
+    <>  
+      <div className='header'>
+      <h1>SnakeGame</h1>
+      <h2>Score : <span>{score.toString()}</span></h2>
+      </div>
+      <span>
+        <img className='sound'src={sound ? soundOn : soundOf} 
+        onClick={() => setSound(!sound)}
+        style={{position:'absolute', left:'95%', top:'5%'}}></img>
+      </span>
         <div className='gameBoard'>
           <div className='container' style={{border:'5px solid green', position:'relative'}}>
-              <GameBoard changeGameOver={changeGameOver} score={score} changeScore={changeScore} reset={reset} changeReset={changeReset} gameOver={gameOver}/>
+              <GameBoard changeGameOver={changeGameOver} score={score} changeScore={changeScore} reset={reset} changeReset={changeReset} gameOver={gameOver} sound={sound}/>
               {gameOver &&
             <div className='gameOver-container' style={{width:'50%', height:'50%',background:'black',borderRadius:'2%',position:'absolute', 
             left:'50%', top:'50%',transform:' translate(-50%, -50%)', display:'flex', flexDirection:'column', justifyContent:'center', alignContent:'center',}}>
