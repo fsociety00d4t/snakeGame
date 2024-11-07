@@ -23,7 +23,6 @@ interface RandomPosition {
 const randomFood = [iceCream, lunch, cake, bakery];
 
 const eatAudio = new Audio(eatSound);
-// Use forwardRef to access the ref from the parent
 const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,headPosition, foodEaten,setFoodFalse, reset, poisonPosition, sound}, ref) => {
     const [randomPosition, setRandomPosition] = useState<{x: number; y: number}>({
         x: Math.floor(Math.random() * gridColumns) + 1,
@@ -33,38 +32,35 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
     
     const getRandomImg = () => {
         let random = Math.floor(Math.random() * randomFood.length);
-        console.log(random);
         setRandomImg(random);
     }
     const getRandomPosition = () => {
-        let positionIsValid = false; // Track if the position is valid
-
-        while (!positionIsValid) {
-            const newPosition = { // Declare newPosition inside the loop
-                x: Math.floor(Math.random() * gridColumns) + 1,
-                y: Math.floor(Math.random() * gridRows) + 1,
-            };
-
-            // Check if the new position overlaps with any poison positions
-            const positionCollidesWithPoison = poisonPosition.some(
-                (poison) => poison.x === newPosition.x && poison.y === newPosition.y
-            );
-
-            // Ensure the position does not collide with poison
-            positionIsValid = !positionCollidesWithPoison;
-           // console.log(positionIsValid);
-
-            if (positionIsValid) {
-                setRandomPosition(newPosition); // Set the valid position
-            }
-        }
-    };
+      let positionIsValid = false; // Track if the position is valid
+  
+      while (!positionIsValid) {
+          const newPosition = { // Declare newPosition inside the loop
+              x: Math.floor(Math.random() * gridColumns) + 1,
+              y: Math.floor(Math.random() * gridRows) + 1,
+          };
+          // Check if the new position overlaps with any poison positions
+          const positionCollidesWithPoison = poisonPosition.some(
+              (poison) => poison.x === newPosition.x && poison.y === newPosition.y
+          );
+  
+          // Ensure the position does not collide with poison
+          positionIsValid = !positionCollidesWithPoison;
+          console.log(positionIsValid);
+          if (positionIsValid) {
+              setRandomPosition(newPosition); 
+          }
+      }
+  };
 
     useEffect(() => {
         if (foodEaten===true){
             sound ? eatAudio.play() : null;
             getRandomImg();
-            getRandomPosition();  //THIS FUCKES IT UP
+            getRandomPosition();  
         }
         setFoodFalse();
     },[foodEaten])
@@ -82,8 +78,7 @@ const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,head
           style={{
             gridRow: randomPosition.y,
             gridColumn: randomPosition.x,
-            // background: 'yellow',
-            position: 'relative', // Add position relative to place image inside
+            position: 'relative', 
           }}
         >
           <img

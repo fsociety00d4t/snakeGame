@@ -14,17 +14,10 @@ interface RandomPosition {
     x: number;
     y: number;
 }
-//const Food = forwardRef<HTMLDivElement, FoodProps>(({ gridColumns, gridRows,headPosition, foodEaten,setFoodFalse}, ref) => {
 
 const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows, headPosition, score, setPoisonFalse, foodEaten, reset}, ref) => {
-    // const [randomPosition, setRandomPosition] = useState<{x: number; y: number}>({
-    //     x: -1,
-    //     y: -1,
-    // })
     const [randomPosition, setRandomPosition] = useState<RandomPosition[]>([
         {x:-1, y:-1},
-        // {x:12, y:15},
-        // {x:13, y:15},
     ]);
 
 
@@ -37,13 +30,10 @@ const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows,
             ...prevPositions,
             {x: newPosition.x, y: newPosition.y}
         ])
-
-        //  setRandomPosition(newPosition);
     }
 
    
     useEffect(() => {
-      //  console.log(randomPosition);
         if (foodEaten){
             if (score>1)
             getRandomPosition();
@@ -52,33 +42,9 @@ const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows,
     },[foodEaten]);
 
     useEffect(() => {
-        // setRandomPosition({x:-1,y:-1}); COME BACK
         setRandomPosition([{x:-1,y:-1}]); 
     }, [reset]);
 
- /* 
-  <div
-          ref={ref}
-          style={{
-            gridRow: randomPosition.y,
-            gridColumn: randomPosition.x,
-            // background: 'yellow',
-            position: 'relative', // Add position relative to place image inside
-          }}
-        >
-          <img
-            src={randomFood[randomImg]}
-            alt="Ice Cream"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain', // Ensure the image fits within the div without distortion
-              position: 'absolute', // Position absolute to keep the image inside the div
-              top: '0',
-              left: '0',
-            }}
-          />
-        </div> */
     return(
         <>
         {randomPosition && randomPosition.map((el,i) => {
@@ -89,7 +55,6 @@ const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows,
                 style={{
                     gridRow: el.y,
                     gridColumn: el.x,
-                    // background: 'green',
                     position:'relative',
                 }} 
                 >
@@ -99,8 +64,8 @@ const Poison = forwardRef<HTMLDivElement, PoisonProps>(({ gridColumns, gridRows,
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'contain', // Ensure the image fits within the div without distortion
-              position: 'absolute', // Position absolute to keep the image inside the div
+              objectFit: 'contain', 
+              position: 'absolute', 
               top: '0',
               left: '0',
             }}

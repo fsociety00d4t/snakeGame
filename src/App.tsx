@@ -20,17 +20,13 @@ function App() {
   }
 
   const changeReset = (bool: boolean) => {
-  //  console.log('called');
     setReset(bool);
   }
 
   const restart = () => {
-   // setReset(true);
-   //console.log(gameOver);
    setGameOver(false);
     changeReset(true);
     setScore(0);
-    //console.log(gameOver);
   }
   return (
     <>  
@@ -49,7 +45,6 @@ function App() {
               {gameOver &&
             <div className='gameOver-container' style={{width:'50%', height:'50%',background:'black',borderRadius:'2%',position:'absolute', 
             left:'50%', top:'50%',transform:' translate(-50%, -50%)', display:'flex', flexDirection:'column', justifyContent:'center', alignContent:'center',}}>
-              {/* /transform: translate(-50%, -50%); */}
                 <h2>Game Over</h2>
                 <button className='restart' onClick={restart}
                 style={{border:'none', background:'none', color:'white', fontSize:'1.3em'}}>

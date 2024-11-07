@@ -19,14 +19,10 @@ interface PlayerPosition {
     const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten, resetPlayer, changeResetPlayer, gameOver, isPoisonEaten, score}, ref) => {
         const [position, setPosition] = useState<PlayerPosition[]>([
             {x:11, y:15},
-            // {x:12, y:15},
-            // {x:13, y:15},
         ]);
         const requestRef = useRef<number | null>(null);
         const [inputDirection, setInputDirection] = useState<PlayerPosition> ({x:0, y:0});
-        // let lastTime = 0;
         let lastRenderTime = 0;
-       // const SPEED = 5;
         let x;
 
         const calculateSpeed = () => {
@@ -38,7 +34,6 @@ interface PlayerPosition {
         const animate = (currentTime : number) => {
             const secondsSinceLastRender = (currentTime - lastRenderTime)/1000;
             const SPEED = calculateSpeed();
-           // console.log(SPEED);
            if (secondsSinceLastRender < 1 / SPEED) 
            {
             requestRef.current = requestAnimationFrame(animate);
@@ -61,26 +56,17 @@ interface PlayerPosition {
 
             setPosition((prevPosition) => {
                 
-                // console.log(inputDirection);
                 const updatedPosition = [...prevPosition]; // Create a copy of the array
-                //console.log(updatedPosition);
                 const newX = prevPosition[0].x + inputDirection.x;
                 const newY = prevPosition[0].y + inputDirection.y;
                 for (let i = updatedPosition.length-2; i >= 0 ; i--) {
                     updatedPosition[i+1] = {
-                      //  x: updatedPosition[i].x,
-                      //  y: updatedPosition[i].y
                         ...updatedPosition[i]
                     };
                 }
-
-               // updatedPosition[0] = {x: newX, y: newY};
-                
                 updatedPosition[0]=({x: newX, y: newY})
 
                x = isGameOver(updatedPosition[0], updatedPosition);
-               // console.log(x);
-               // console.log(isFoodEaten);
                if (isFoodEaten)
                 isFoodEaten(updatedPosition[0]);
                if (isPoisonEaten)
@@ -89,11 +75,9 @@ interface PlayerPosition {
             }); 
             if (!x)                       
             requestRef.current = requestAnimationFrame(animate);
-            // console.log(position);
           };
 
           useEffect(() => {
-            // console.log(foodEaten);
             if (foodEaten) {
                 setPosition((prevPosition) => {
                     const lastSegment = prevPosition[prevPosition.length-1];
@@ -112,26 +96,22 @@ interface PlayerPosition {
         };
     }, [inputDirection]); 
 
+    useEffect(() => {
+        setInputDirection({x:0, y:0});
+    }, [gameOver]);
+
 
     useEffect(()=> {
         if (resetPlayer===true){
-          //  console.log('reset player');
-           // console.log('dkakd');
-           //console.log('here');
            setPosition([{x:11, y:15}]);
            changeResetPlayer();
-           //setResetPlayer(false);
         }
     },[resetPlayer]);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-          //  console.log(gameOver);
             if (gameOver) {
-               // console.log(inputDirection)
-            //    console.log('in gameover');
                 setInputDirection({x:0, y:0});
-              //  console.log(inputDirection)
                 return;
             }
             switch (event.key) {               
@@ -171,8 +151,7 @@ interface PlayerPosition {
                     style={{
                         gridRow: el.y,
                         gridColumn: el.x,
-                        // border: '.25vmin solid black',
-                        background: i === 0 ? '' : '#006400', // Snake head is red
+                        background: i === 0 ? '' : '#006400', 
                         position: 'relative',
                         borderRadius:'40%',
                         border: i === 0 ? 'none': '1px solid #005600',
@@ -185,7 +164,7 @@ interface PlayerPosition {
                             style={{
                                 width: '100%',
                                 height: '100%',
-                                objectFit: 'contain', // Ensure it fits the div size
+                                objectFit: 'contain', 
                                 position: 'absolute',
                                 top:'0',
                                 left:'0',
