@@ -20,19 +20,11 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
     const parentRef = useRef<HTMLDivElement | null>(null);
     const foodRef = useRef<HTMLDivElement | null>(null);
     const poisonRef = useRef<HTMLDivElement | null>(null);
+    const headPosition  = useRef<{x: number; y: number } | null>(null);
+
     const gridColumns = 21;
     const gridRows = 21;
-   // let headPosition;
-
-    //const [headPosition, setHeadPosition] = useState<{x:number, y:number} | null>(null);
-    const headPosition  = useRef<{x: number; y: number } | null>(null);
-    //const [test, setTest] = useState<{x:Number, y:number} | null> (null);
-    /*
-    const [randomPosition, setRandomPosition] = useState<RandomPosition[]>([
-        {x:-1, y:-1},
-        // {x:12, y:15},
-        // {x:13, y:15},
-    ]); */
+  
     const [foodPosition,setFoodPotition] = useState<{x:Number; y:number}|null>(null);
     const [foodEaten, setFoodEaten] = useState<Boolean>(false);
     const [resetPlayer, setResetPlayer] = useState<boolean>(false);
@@ -155,10 +147,8 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
         <>
         
         <div 
-        ref={parentRef} // Pass this ref to the child
+        ref={parentRef} 
         className="board" style={{position:'relative', width: '100vmin', gridTemplateColumns: 'repeat(21, 1fr)',gridTemplateRows: 'repeat(21, 1fr)',height: '80vmin'}}>
-            {/* <div className="test"></div> */}
-            {/* {console.log(HTMLDivElement)} */}
             {/* @ts-ignore */}
             <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten} resetPlayer={resetPlayer} 
             changeResetPlayer={changeResetPlayer} gameOver={gameOver} isPoisonEaten={isPoisonEaten} score={score}/>
@@ -174,5 +164,7 @@ export default GameBoard;
 
 /*
 TODO: 
-6. finish up style.
+1. No collide food or poison with snake body
+2. Finish Style
+3. Deploy
 */

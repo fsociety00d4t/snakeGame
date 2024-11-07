@@ -10,14 +10,13 @@ interface PlayerProps {
     gameOver: boolean;
     isPoisonEaten: (currentPosition: {x: number; y:number}) => boolean;
     score: number;
-   //PlayerPosition: {x: number, y:number};
 }
 
 interface PlayerPosition {
     x: number;
     y: number;
 }
-    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten, resetPlayer, changeResetPlayer, gameOver, isPoisonEaten, score}) => {
+    const Player: React.FC<PlayerProps> = ({ parentRef, isGameOver,isFoodEaten, foodEaten, resetPlayer, changeResetPlayer, gameOver, isPoisonEaten, score}, ref) => {
         const [position, setPosition] = useState<PlayerPosition[]>([
             {x:11, y:15},
             // {x:12, y:15},
@@ -75,9 +74,10 @@ interface PlayerPosition {
                     };
                 }
 
-                updatedPosition[0] = {x: newX, y: newY};
-
+               // updatedPosition[0] = {x: newX, y: newY};
+                
                 updatedPosition[0]=({x: newX, y: newY})
+
                x = isGameOver(updatedPosition[0], updatedPosition);
                // console.log(x);
                // console.log(isFoodEaten);
@@ -112,6 +112,7 @@ interface PlayerPosition {
         };
     }, [inputDirection]); 
 
+
     useEffect(()=> {
         if (resetPlayer===true){
           //  console.log('reset player');
@@ -122,11 +123,6 @@ interface PlayerPosition {
            //setResetPlayer(false);
         }
     },[resetPlayer]);
-
-    useEffect(() => {
-        setInputDirection({x:0, y:0});
-    },[gameOver]);
-    
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -165,29 +161,7 @@ interface PlayerPosition {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [inputDirection, gameOver]);
- /*
- <div
-          ref={ref}
-          style={{
-            gridRow: randomPosition.y,
-            gridColumn: randomPosition.x,
-            // background: 'yellow',
-            position: 'relative', // Add position relative to place image inside
-          }}
-        >
-          <img
-            src={randomFood[randomImg]}
-            alt="Ice Cream"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain', // Ensure the image fits within the div without distortion
-              position: 'absolute', // Position absolute to keep the image inside the div
-              top: '0',
-              left: '0',
-            }}
-          />
-        </div> */
+
     return (
         <>
         {position.map((el, i) => {
@@ -198,10 +172,10 @@ interface PlayerPosition {
                         gridRow: el.y,
                         gridColumn: el.x,
                         // border: '.25vmin solid black',
-                        background: i === 0 ? '' : 'green', // Snake head is red
+                        background: i === 0 ? '' : '#006400', // Snake head is red
                         position: 'relative',
                         borderRadius:'40%',
-                        border: i === 0 ? '2px solid black': 'none',
+                        border: i === 0 ? 'none': '1px solid #005600',
                     }}
                 >
                     {i === 0 && (
