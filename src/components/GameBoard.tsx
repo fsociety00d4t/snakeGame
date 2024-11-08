@@ -25,7 +25,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
     const gridRows = 21;
   
     const [foodPosition,setFoodPotition] = useState<{x:Number; y:number}|null>(null);
-    const [foodEaten, setFoodEaten] = useState<Boolean>(false);
+    const [foodEaten, setFoodEaten] = useState<boolean>(false);
     const [resetPlayer, setResetPlayer] = useState<boolean>(false);
     const [poisonPosition, setPoisonPosition] = useState<Array<{ x: number; y: number }>>([]);
 
@@ -33,7 +33,7 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
 
 
     const isGameOver = (currentPosition:{x: number; y:number}, 
-        allCellsPositions:{ [key: string]: {x:number, y:number}}) => {
+        allCellsPositions:{ x: number, y: number}[]) => {
        
        headPosition.current = {x:currentPosition.x, y:currentPosition.y};
        
@@ -129,7 +129,6 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
         <div 
         ref={parentRef} 
         className="board" style={{position:'relative', width: '100vmin', gridTemplateColumns: 'repeat(21, 1fr)',gridTemplateRows: 'repeat(21, 1fr)',height: '80vmin'}}>
-            {/* @ts-ignore */}
             <Player parentRef={parentRef} isGameOver={isGameOver} isFoodEaten={isFoodEaten} foodEaten={foodEaten} resetPlayer={resetPlayer} 
             changeResetPlayer={changeResetPlayer} gameOver={gameOver} isPoisonEaten={isPoisonEaten} score={score}/>
             <Food gridColumns={gridColumns} gridRows={gridRows} ref={foodRef} headPosition={headPosition.current} foodEaten={foodEaten} setFoodFalse={setFoodFalse} reset={reset} poisonPosition={poisonPosition} sound={sound}/>
@@ -142,7 +141,3 @@ const GameBoard: React.FC<ParentProps> = ({changeGameOver, score, changeScore, r
 
 export default GameBoard;
 
-/*
-TODO: 
-3. Deploy
-*/

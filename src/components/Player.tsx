@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import snakeHead from '../assets/snake-head.svg';
 interface PlayerProps {
-    parentRef: React.RefObject<HTMLDListElement>;
-    isGameOver: (currentPosition: { x: number; y: number }) => boolean;
+    parentRef: React.RefObject<HTMLDivElement>;
+    isGameOver: (currentPosition: { x: number; y: number }, allCellsPositions: { x: number; y: number }[]) => boolean;
     isFoodEaten: (currentPosition: { x: number; y: number }) => void;
     foodEaten: boolean;
-    resetPlayer: true;
+    resetPlayer: boolean;
     changeResetPlayer: () => void;
     gameOver: boolean;
     isPoisonEaten: (currentPosition: {x: number; y:number}) => boolean;
@@ -53,7 +53,6 @@ interface PlayerPosition {
             boardColumns = parentStyle.gridTemplateColumns;
            }
             
-
             setPosition((prevPosition) => {
                 
                 const updatedPosition = [...prevPosition]; // Create a copy of the array
@@ -65,6 +64,7 @@ interface PlayerPosition {
                     };
                 }
                 updatedPosition[0]=({x: newX, y: newY})
+                
 
                x = isGameOver(updatedPosition[0], updatedPosition);
                if (isFoodEaten)
